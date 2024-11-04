@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "N2", "label": "N2: The term \u0027State Parties\u0027 refers to States and international organizations that have become Parties to the Convention as per article 1, paragraph 2, subparagraphs 1 and 2.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N1", "label": "N1: The first question posed to the Tribunal concerns the specific obligations of States Parties to the Convention to prevent, reduce, and control marine pollution in relation to the deleterious effects from climate change and ocean acidification caused by anthropogenic GHG emissions.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N3", "label": "N3: \u0027Specific obligations\u0027 may denote concrete or particularized obligations, contrasting with general obligations, and may also mean obligations specific to pollution related to climate change and ocean acidification.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N5", "label": "N5: The Tribunal accepts the definitions and usage of these terms from relevant legal instruments and scientific reports for the purpose of responding to Question (a).", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N4", "label": "N4: Terms like \u0027climate change,\u0027 \u0027greenhouse gas emissions,\u0027 and \u0027ocean acidification\u0027 are not present in the Convention but are defined in relevant legal instruments and scientific works like IPCC reports.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N6", "label": "N6: The question is based on the premise that obligations under the Convention necessarily apply to climate change and ocean acidification, but this premise needs to be examined.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N7", "label": "N7: The Tribunal will first address whether the obligations under the Convention apply to climate change and ocean acidification.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N8", "label": "N8: If the obligations do apply, the Tribunal will then examine how these obligations should be interpreted and applied concerning the deleterious effects caused by anthropogenic GHG emissions.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N9", "label": "N9: Anthropogenic GHG emissions into the atmosphere fall under the definition of \u0027pollution of the marine environment\u0027 under article 1, paragraph 1, subparagraph 4, of the Convention.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N10", "label": "N10: A large majority of participants recognize that anthropogenic GHG emissions meet the definition of marine pollution under the Convention.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N18", "label": "N18: Anthropogenic GHG emissions cause climate change and ocean acidification, resulting in deleterious effects on the marine environment.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N11", "label": "N11: Some participants argue that GHG emissions should not be considered \u0027pollution of the marine environment\u0027 and including them would be the Tribunal exercising legislative functions.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N12", "label": "N12: Article 1, paragraph 1, subparagraph 4, provides three criteria for \u0027pollution of the marine environment\u0027: (1) there must be a substance or energy; (2) introduced by humans, directly or indirectly, into the marine environment; (3) resulting or likely to result in deleterious effects.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N13", "label": "N13: The term \u0027substance\u0027 refers to any kind of matter with uniform properties or definite chemical composition.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N14", "label": "N14: \u0027Greenhouse gases\u0027 are substances, satisfying the first criterion of the definition.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N15", "label": "N15: Anthropogenic GHG emissions are produced by humans, satisfying the second criterion.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N16", "label": "N16: The term \u0027marine environment\u0027 combines spatial and material components and is used broadly in the Convention.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N17", "label": "N17: Introduction can be direct or indirect; anthropogenic GHGs are introduced into the marine environment both directly and indirectly.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N19", "label": "N19: The deleterious effects include harm to living resources and marine life, hazards to human health, hindrance to marine activities, impairment of seawater quality, and reduction of amenities.", "shape": "dot", "size": 30}, {"color": "#97c2fc", "id": "N20", "label": "N20: The Tribunal concludes that anthropogenic GHG emissions into the atmosphere constitute pollution of the marine environment under the Convention.", "shape": "dot", "size": 30}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "N2", "label": "LS1: Defining \"State Parties\" clarifies who the obligations apply to in N1.", "title": "LS1: Defining \"State Parties\" clarifies who the obligations apply to in N1.", "to": "N1", "width": 1}, {"arrows": "to", "from": "N3", "label": "LS2: Clarifying \"specific obligations\" helps interpret the question posed in N1.", "title": "LS2: Clarifying \"specific obligations\" helps interpret the question posed in N1.", "to": "N1", "width": 1}, {"arrows": "to", "from": "N3", "label": "LS23: Understanding \"specific obligations\" aids in examining the premise.", "title": "LS23: Understanding \"specific obligations\" aids in examining the premise.", "to": "N5", "width": 1}, {"arrows": "to", "from": "N4", "label": "LS3: Explaining the absence of certain terms in the Convention but their definitions elsewhere aids in addressing N1.", "title": "LS3: Explaining the absence of certain terms in the Convention but their definitions elsewhere aids in addressing N1.", "to": "N1", "width": 1}, {"arrows": "to", "from": "N5", "label": "LS21: Accepting definitions from other sources allows the Tribunal to interpret terms not in the Convention.", "title": "LS21: Accepting definitions from other sources allows the Tribunal to interpret terms not in the Convention.", "to": "N4", "width": 1}, {"arrows": "to", "from": "N6", "label": "LS5: Questioning the premise that obligations necessarily apply challenges N1\u2019s assumption.", "title": "LS5: Questioning the premise that obligations necessarily apply challenges N1\u2019s assumption.", "to": "N1", "width": 1}, {"arrows": "to", "from": "N7", "label": "LS6: The Tribunal\u2019s decision to examine the applicability of obligations validates the need to question N1\u2019s premise.", "title": "LS6: The Tribunal\u2019s decision to examine the applicability of obligations validates the need to question N1\u2019s premise.", "to": "N6", "width": 1}, {"arrows": "to", "from": "N7", "label": "LS22: The need to examine the premise justifies the approach taken.", "title": "LS22: The need to examine the premise justifies the approach taken.", "to": "N5", "width": 1}, {"arrows": "to", "from": "N8", "label": "LS7: Outlining the approach if obligations apply provides a method to address N1.", "title": "LS7: Outlining the approach if obligations apply provides a method to address N1.", "to": "N7", "width": 1}, {"arrows": "to", "from": "N8", "label": "LS20: Establishing the methodology for addressing the question in N1.", "title": "LS20: Establishing the methodology for addressing the question in N1.", "to": "N1", "width": 1}, {"arrows": "to", "from": "N9", "label": "LS8: Concluding that GHG emissions fall under marine pollution directly answers N1.", "title": "LS8: Concluding that GHG emissions fall under marine pollution directly answers N1.", "to": "N1", "width": 1}, {"arrows": "to", "from": "N10", "label": "LS9: Majority recognition strengthens the conclusion in N9.", "title": "LS9: Majority recognition strengthens the conclusion in N9.", "to": "N9", "width": 1}, {"arrows": "to", "from": "N10", "label": "LS24: Majority recognition of GHG emissions causing deleterious effects strengthens N18.", "title": "LS24: Majority recognition of GHG emissions causing deleterious effects strengthens N18.", "to": "N18", "width": 1}, {"arrows": "to", "from": "N11", "label": "LA1: Opposing views challenge the conclusion that GHG emissions are marine pollution.", "title": "LA1: Opposing views challenge the conclusion that GHG emissions are marine pollution.", "to": "N9", "width": 1}, {"arrows": "to", "from": "N12", "label": "LS10: The three criteria for pollution provide a framework that N9 satisfies.", "title": "LS10: The three criteria for pollution provide a framework that N9 satisfies.", "to": "N9", "width": 1}, {"arrows": "to", "from": "N13", "label": "LS11: Defining \"substance\" supports the classification of GHGs as substances.", "title": "LS11: Defining \"substance\" supports the classification of GHGs as substances.", "to": "N14", "width": 1}, {"arrows": "to", "from": "N14", "label": "LS12: GHGs being substances satisfies the first criterion in N12.", "title": "LS12: GHGs being substances satisfies the first criterion in N12.", "to": "N12", "width": 1}, {"arrows": "to", "from": "N15", "label": "LS13: Anthropogenic emissions being produced by humans satisfies the second criterion.", "title": "LS13: Anthropogenic emissions being produced by humans satisfies the second criterion.", "to": "N12", "width": 1}, {"arrows": "to", "from": "N16", "label": "LS14: Understanding \"marine environment\" is necessary for the second criterion.", "title": "LS14: Understanding \"marine environment\" is necessary for the second criterion.", "to": "N12", "width": 1}, {"arrows": "to", "from": "N16", "label": "LS26: Broad understanding of marine environment encompasses areas affected by GHG emissions.", "title": "LS26: Broad understanding of marine environment encompasses areas affected by GHG emissions.", "to": "N18", "width": 1}, {"arrows": "to", "from": "N17", "label": "LS15: Explaining direct and indirect introduction satisfies part of the second criterion.", "title": "LS15: Explaining direct and indirect introduction satisfies part of the second criterion.", "to": "N12", "width": 1}, {"arrows": "to", "from": "N17", "label": "LS25: Explanation of direct and indirect introduction supports that emissions are introduced by humans.", "title": "LS25: Explanation of direct and indirect introduction supports that emissions are introduced by humans.", "to": "N15", "width": 1}, {"arrows": "to", "from": "N18", "label": "LS16: GHG emissions causing deleterious effects satisfies the third criterion.", "title": "LS16: GHG emissions causing deleterious effects satisfies the third criterion.", "to": "N12", "width": 1}, {"arrows": "to", "from": "N19", "label": "LS17: Specifying the deleterious effects strengthens the argument in N18.", "title": "LS17: Specifying the deleterious effects strengthens the argument in N18.", "to": "N18", "width": 1}, {"arrows": "to", "from": "N20", "label": "LS18: The Tribunal\u2019s conclusion confirms the argument made in N9.", "title": "LS18: The Tribunal\u2019s conclusion confirms the argument made in N9.", "to": "N9", "width": 1}, {"arrows": "to", "from": "N20", "label": "LS19: Final conclusion that GHG emissions constitute marine pollution answers the original question in N1.", "title": "LS19: Final conclusion that GHG emissions constitute marine pollution answers the original question in N1.", "to": "N1", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
