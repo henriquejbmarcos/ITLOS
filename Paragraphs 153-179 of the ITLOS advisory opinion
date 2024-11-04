@@ -1,0 +1,62 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+G = nx.DiGraph()
+nodes = {
+    'N1': "The first question posed to the Tribunal concerns the specific obligations of States Parties to the Convention to prevent, reduce, and control marine pollution in relation to the deleterious effects from climate change and ocean acidification caused by anthropogenic GHG emissions.",
+    'N2': "The term 'State Parties' refers to States and international organizations that have become Parties to the Convention as per article 1, paragraph 2, subparagraphs 1 and 2.",
+    'N3': "'Specific obligations' may denote concrete or particularized obligations, contrasting with general obligations, and may also mean obligations specific to pollution related to climate change and ocean acidification.",
+    'N4': "Terms like 'climate change,' 'greenhouse gas emissions,' and 'ocean acidification' are not present in the Convention but are defined in relevant legal instruments and scientific works like IPCC reports.",
+    'N5': "The Tribunal accepts the definitions and usage of these terms from relevant legal instruments and scientific reports for the purpose of responding to Question (a).",
+    'N6': "The question is based on the premise that obligations under the Convention necessarily apply to climate change and ocean acidification, but this premise needs to be examined.",
+    'N7': "The Tribunal will first address whether the obligations under the Convention apply to climate change and ocean acidification.",
+    'N8': "If the obligations do apply, the Tribunal will then examine how these obligations should be interpreted and applied concerning the deleterious effects caused by anthropogenic GHG emissions.",
+    'N9': "Anthropogenic GHG emissions into the atmosphere fall under the definition of 'pollution of the marine environment' under article 1, paragraph 1, subparagraph 4, of the Convention.",
+    'N10': "A large majority of participants recognize that anthropogenic GHG emissions meet the definition of marine pollution under the Convention.",
+    'N11': "Some participants argue that GHG emissions should not be considered 'pollution of the marine environment' and including them would be the Tribunal exercising legislative functions.",
+    'N12': "Article 1, paragraph 1, subparagraph 4, provides three criteria for 'pollution of the marine environment': (1) there must be a substance or energy; (2) introduced by humans, directly or indirectly, into the marine environment; (3) resulting or likely to result in deleterious effects.",
+    'N13': "The term 'substance' refers to any kind of matter with uniform properties or definite chemical composition.",
+    'N14': "'Greenhouse gases' are substances, satisfying the first criterion of the definition.",
+    'N15': "Anthropogenic GHG emissions are produced by humans, satisfying the second criterion.",
+    'N16': "The term 'marine environment' combines spatial and material components and is used broadly in the Convention.",
+    'N17': "Introduction can be direct or indirect; anthropogenic GHGs are introduced into the marine environment both directly and indirectly.",
+    'N18': "Anthropogenic GHG emissions cause climate change and ocean acidification, resulting in deleterious effects on the marine environment.",
+    'N19': "The deleterious effects include harm to living resources and marine life, hazards to human health, hindrance to marine activities, impairment of seawater quality, and reduction of amenities.",
+    'N20': "The Tribunal concludes that anthropogenic GHG emissions into the atmosphere constitute pollution of the marine environment under the Convention."
+}
+G.add_nodes_from((n, {"label": f"{n}: {desc}"}) for n, desc in nodes.items())
+edges = [
+    ('N2', 'N1', 'LS1: Defining "State Parties" clarifies who the obligations apply to in N1.'),
+    ('N3', 'N1', 'LS2: Clarifying "specific obligations" helps interpret the question posed in N1.'),
+    ('N4', 'N1', 'LS3: Explaining the absence of certain terms in the Convention but their definitions elsewhere aids in addressing N1.'),
+    ('N5', 'N4', 'LS4: The Tribunal’s acceptance of external definitions supports using those terms in N1.'),
+    ('N6', 'N1', 'LS5: Questioning the premise that obligations necessarily apply challenges N1’s assumption.'),
+    ('N7', 'N6', 'LS6: The Tribunal’s decision to examine the applicability of obligations validates the need to question N1’s premise.'),
+    ('N8', 'N7', 'LS7: Outlining the approach if obligations apply provides a method to address N1.'),
+    ('N9', 'N1', 'LS8: Concluding that GHG emissions fall under marine pollution directly answers N1.'),
+    ('N10', 'N9', 'LS9: Majority recognition strengthens the conclusion in N9.'),
+    ('N11', 'N9', 'LA1: Opposing views challenge the conclusion that GHG emissions are marine pollution.'),
+    ('N12', 'N9', 'LS10: The three criteria for pollution provide a framework that N9 satisfies.'),
+    ('N13', 'N14', 'LS11: Defining "substance" supports the classification of GHGs as substances.'),
+    ('N14', 'N12', 'LS12: GHGs being substances satisfies the first criterion in N12.'),
+    ('N15', 'N12', 'LS13: Anthropogenic emissions being produced by humans satisfies the second criterion.'),
+    ('N16', 'N12', 'LS14: Understanding "marine environment" is necessary for the second criterion.'),
+    ('N17', 'N12', 'LS15: Explaining direct and indirect introduction satisfies part of the second criterion.'),
+    ('N18', 'N12', 'LS16: GHG emissions causing deleterious effects satisfies the third criterion.'),
+    ('N19', 'N18', 'LS17: Specifying the deleterious effects strengthens the argument in N18.'),
+    ('N20', 'N9', 'LS18: The Tribunal’s conclusion confirms the argument made in N9.'),
+    ('N20', 'N1', 'LS19: Final conclusion that GHG emissions constitute marine pollution answers the original question in N1.'),
+    ('N8', 'N1', 'LS20: Establishing the methodology for addressing the question in N1.'),
+    ('N5', 'N4', 'LS21: Accepting definitions from other sources allows the Tribunal to interpret terms not in the Convention.'),
+    ('N7', 'N5', 'LS22: The need to examine the premise justifies the approach taken.'),
+    ('N3', 'N5', 'LS23: Understanding "specific obligations" aids in examining the premise.'),
+    ('N10', 'N18', 'LS24: Majority recognition of GHG emissions causing deleterious effects strengthens N18.'),
+    ('N17', 'N15', 'LS25: Explanation of direct and indirect introduction supports that emissions are introduced by humans.'),
+    ('N16', 'N18', 'LS26: Broad understanding of marine environment encompasses areas affected by GHG emissions.')
+]
+G.add_edges_from((src, tgt, {'label': label}) for src, tgt, label in edges)
+pos = nx.spring_layout(G)  # positions for all nodes
+nx.draw(G, pos, with_labels=True, labels=nx.get_node_attributes(G, 'label'), node_size=20000, node_color='lightblue', font_size=10, font_weight='bold')
+nx.draw_networkx_edges(G, pos, arrowstyle='-|>', arrowsize=20, edge_color='black')
+edge_labels = nx.get_edge_attributes(G, 'label')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
+plt.show()
