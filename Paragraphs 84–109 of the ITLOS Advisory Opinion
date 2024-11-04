@@ -1,0 +1,50 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+G = nx.DiGraph()
+nodes = {
+    'N1': "The Tribunal’s jurisdiction to render an advisory opinion is based on article 21 of its Statute.",
+    'N2': "Article 21 of the Tribunal’s Statute defines its jurisdiction as including all disputes, applications, and matters provided for in agreements that confer jurisdiction.",
+    'N3': "The Tribunal’s jurisdiction comprises disputes, applications, and matters under agreements that confer jurisdiction on the Tribunal (from the SRFC Advisory Opinion).",
+    'N4': "The term “all matters” in article 21 of the Statute includes advisory opinions if provided for in any agreement.",
+    'N5': "The expression “all matters” does not, by itself, establish jurisdiction; it is the “other agreement” that confers such jurisdiction.",
+    'N6': "Article 2, paragraph 2, of the COSIS Agreement authorizes the Commission to request advisory opinions from the Tribunal.",
+    'N7': "The COSIS Agreement, along with article 21 of the Statute, forms the substantive legal basis for the Tribunal’s advisory jurisdiction in this case.",
+    'N8': "The Tribunal’s finding in the SRFC Advisory Opinion regarding its advisory jurisdiction is supported by most States Parties to the Convention.",
+    'N9': "Most participants in the current proceedings expressed the view that the Tribunal has jurisdiction to render the advisory opinion requested.",
+    'N10': "The BBNJ Agreement allows the Conference of the Parties to request advisory opinions from the Tribunal.",
+    'N11': "Article 138 of the Rules of the Tribunal sets out the prerequisites for exercising advisory jurisdiction.",
+    'N12': "Article 138 does not itself establish jurisdiction but provides prerequisites that must be met before jurisdiction can be exercised.",
+    'N13': "The COSIS Agreement meets the first prerequisite of being an international agreement related to the purposes of the Convention.",
+    'N14': "The COSIS Agreement authorizes the Commission to submit requests for advisory opinions, meeting the second prerequisite.",
+    'N15': "The questions posed by the Commission concern legal questions, meeting the third prerequisite.",
+    'N16': "The Tribunal concludes that the questions raised are of a legal nature.",
+    'N17': "The Tribunal’s jurisdiction extends to matters provided for in other agreements that confer jurisdiction.",
+    'N18': "The questions posed by the Commission have a “sufficient connection” with the purpose of the COSIS Agreement.",
+    'N19': "The Tribunal concludes it has jurisdiction to render the requested advisory opinion."
+}
+G.add_nodes_from((n, {"label": f"{n}: {desc}"}) for n, desc in nodes.items())
+
+edges = [
+    ('N2', 'N1', 'LS1: Article 21 defines the Tribunal’s jurisdiction, thus supporting the claim that the Tribunal’s jurisdiction is based on this article.'),
+    ('N3', 'N2', 'LS2: The SRFC Advisory Opinion affirms the three components of the Tribunal’s jurisdiction, reinforcing the interpretation of article 21.'),
+    ('N4', 'N3', 'LS3: The term “all matters” includes advisory opinions, broadening the scope of jurisdiction.'),
+    ('N5', 'N4', 'LS4: Clarification that “all matters” alone does not confer jurisdiction, but the “other agreement” does.'),
+    ('N6', 'N7', 'LS5: The COSIS Agreement authorizes the Commission to request advisory opinions, providing the legal basis for jurisdiction.'),
+    ('N8', 'N7', 'LS6: The Tribunal’s previous finding regarding its advisory jurisdiction is supported by most States Parties to the Convention.'),
+    ('N9', 'N7', 'LS7: The majority of participants in this case agree that the Tribunal has jurisdiction, reinforcing the legal basis.'),
+    ('N10', 'N7', 'LS8: The BBNJ Agreement allows for similar requests, indirectly reinforcing the Tribunal’s jurisdiction in this instance.'),
+    ('N11', 'N7', 'LS9: Article 138 sets out prerequisites that, if met, allow the Tribunal to exercise its jurisdiction.'),
+    ('N13', 'N11', 'LS10: The COSIS Agreement meets the first prerequisite of being an international agreement related to the purposes of the Convention.'),
+    ('N14', 'N11', 'LS11: The COSIS Agreement authorizes the Commission to submit requests for advisory opinions, fulfilling the second prerequisite.'),
+    ('N15', 'N11', 'LS12: The questions posed by the Commission are legal questions, satisfying the third prerequisite.'),
+    ('N16', 'N15', 'LS13: The Tribunal concludes that the questions are legal, confirming their relevance.'),
+    ('N18', 'N17', 'LS14: The questions posed by the Commission have a “sufficient connection” with the purpose of the COSIS Agreement, thereby supporting the conclusion that the Tribunal’s jurisdiction extends to matters provided for in other agreements that confer jurisdiction.'),
+    ('N17', 'N19', 'LS15: The Tribunal’s jurisdiction extends to matters provided for in other agreements, thus supporting the Tribunal’s conclusion that it has jurisdiction to render the advisory opinion.')
+]
+G.add_edges_from((src, tgt, {'label': label}) for src, tgt, label in edges)
+pos = nx.spring_layout(G)  # positions for all nodes
+nx.draw(G, pos, with_labels=True, labels=nx.get_node_attributes(G, 'label'), node_size=15000, node_color='lightblue', font_size=8, font_weight='bold')
+nx.draw_networkx_edges(G, pos, arrowstyle='-|>', arrowsize=20, edge_color='black')
+edge_labels = nx.get_edge_attributes(G, 'label')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
+plt.show()
